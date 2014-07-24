@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html ng-app="material-cmis">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>Alfresco CMIS Browser - Angular-Material</title>
+
+    <!-- build:css css/material-alfresco.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="vendor/material-design/dist/material-design.css" />
+    <link rel="stylesheet" href="vendor/ionicons/css/ionicons.css" />
+
+    <!-- endbower -->
+    <link rel="stylesheet" href="css/app.css" />
+    <!-- endbuild -->
+</head>
+
+<body ng-controller="mainController" ng-cloak>
+
+    <material-toolbar id="header-bar" class=" material-tall-medium " scroll-header condensed-height="0">
+        <div class="material-toolbar-tools  material-toolbar-tool-bottom">
+            <span class="material-flex material-indent" style="color:#CCC;">Alfrescian CMIS Browser</span>
+        </div>
+        <material-tabs selected="activeIndex" >
+            <material-tab class="material-theme-red" on-select="onTabSelected(repo)" ng-repeat="repo in repositories">
+                <material-tab-label>{{repo.title}}</material-tab-label>
+            </material-tab>
+        </material-tabs>
+    </material-toolbar>
+
+
+
+    <material-content>
+       <div class=" breadcrumb">
+            <div ng-repeat="parent in parents">
+                <button ng-if="!$last" class="material-button material-indent" ng-click="breadcrumbNav($index)">{{parent.name}} <i class="ion-ios7-arrow-forward"></i></button>
+                <button ng-if="$last" disabled class="material-button material-indent">{{parent.name}}</button>
+            </div>
+        </div>
+        <material-list>
+            <cmis-object ng-repeat="node in nodes" base-url="activeRepository.url" click-handler="openFolder(path, name)" properties="node.object.succinctProperties"></cmis-object>
+        </material-list>
+    </material-content>
+    
+    
+    <!--Inline NG Templates -->
+    <script id="cmis-object.html" type="text/ng-template">
+        <material-item>
+            <div class = "material-tile-left" > 
+                <i ng-class="{'ion-earth': properties['cmis:objectTypeId'] == 'F:st:site', 'ion-folder': properties['cmis:objectTypeId'] == 'cmis:folder' || properties['cmis:baseTypeId'] == 'cmis:folder', 'ion-document': properties['cmis:objectTypeId'] == 'cmis:document' || properties['cmis:baseTypeId'] == 'cmis:document'}" style = "font-size:36px"></i>
+            </div>
+            <div class = "material-tile-content">
+            <button ng-if="properties['cmis:objectTypeId'] == 'cmis:folder' || properties['cmis:baseTypeId'] == 'cmis:folder'" class="material-button" ng-click="click()">
+                {{properties['cmis:name']}}
+            </button>
+            <a ng-if="properties['cmis:objectTypeId'] == 'cmis:document' || properties['cmis:baseTypeId'] == 'cmis:document'" class="material-button" style="color:inherit" ng-href="{{properties['cmis:objectId'] | cmisDownloadUrl:baseUrl:true}}">
+                {{properties['cmis:name']}}
+            </a>
+         </div>
+        </material-item>
+    </script>
+
+
+
+    <!-- build:js js/material-alfresco.js -->
+    <!-- bower:js -->
+    <script src="vendor/jquery/dist/jquery.js"></script>
+    <script src="vendor/angular/angular.js"></script>
+    <script src="vendor/angular-animate/angular-animate.js"></script>
+    <script src="vendor/material-design/config/lib/angular-animate-sequence/angular-animate-sequence.js"></script>
+    <script src="vendor/material-design/config/lib/angular-animate-sequence/angular-animate-stylers.js"></script>
+    <script src="vendor/material-design/dist/material-design.js"></script>
+    <!-- endbower -->
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/controllers/mainController.js"></script>
+    <script type="text/javascript" src="js/services/cmisServices.js"></script>
+    <!-- endbuild -->
+
+</body>
+
+</html>

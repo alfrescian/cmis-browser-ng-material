@@ -1,0 +1,12 @@
+{
+  "name": "material-alfresco",
+  "version": "0.0.1",
+  "dependencies": {
+    "jquery": "^1.11.x",
+    "angular": "^1.3.x",
+    "angular-animate": "^1.3.x",
+    "material-design": "https://github.com/angular/material.git",
+    "ionicons": "~1.5.2"
+  },
+  "devDependencies": {}
+}

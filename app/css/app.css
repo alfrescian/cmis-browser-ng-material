@@ -1,0 +1,23 @@
+ material-content {
+      padding-top: 100px;
+    }
+#header-bar {
+    background-size: cover;
+    #background-image: url('/img/background.jpeg');
+}
+
+.breadcrumb .material-button[disabled]{
+    background-color:inherit !important;
+}
+.breadcrumb{
+    display: flex;
+    flex-direction: row;
+    flex-flow: row wrap; 
+    
+    display: -webkit-flex;
+    -webkit-flex-direction: row;
+    -webkit-flex-flow: row wrap; 
+    
+    justify-content: flex-start;
+    margin-top: 1em;
+}
